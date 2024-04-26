@@ -47,6 +47,15 @@ async function run() {
       res.send(result);
     })
 
+    app.post('/touristspot', async(req, res) => {
+      const newTourSpot = req.body;
+      console.log(newTourSpot);
+
+      const result = await touristCollection.insertOne(newTourSpot);
+      res.send(result);
+    })
+
+
 
 
 
