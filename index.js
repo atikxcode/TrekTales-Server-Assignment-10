@@ -40,13 +40,7 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     })
-    const countryCollection = client.db('toursite').collection('country');
-    // Country 
-    app.get('/country', async(req, res) => {
-      const cursor = countryCollection.find();
-      const result = await cursor.toArray();
-      res.send(result);
-    })
+    
 
     app.get('/touristspot/:id', async(req, res) => {
       const id = req.params.id;
@@ -56,9 +50,6 @@ async function run() {
     })
 
 
-   
-
-
     app.post('/touristspot', async(req, res) => {
       const newTourSpot = req.body;
       console.log(newTourSpot);
@@ -66,6 +57,28 @@ async function run() {
       const result = await touristCollection.insertOne(newTourSpot);
       res.send(result);
     })
+
+
+    app.delete('/touristspot/:id', async(req, res) => {
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)};
+      const result = await touristCollection.deleteOne(query);
+      res.send(result);
+    })
+
+
+
+
+
+    // Country 
+    const countryCollection = client.db('toursite').collection('country');
+    
+    app.get('/country', async(req, res) => {
+      const cursor = countryCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+
 
 
 
