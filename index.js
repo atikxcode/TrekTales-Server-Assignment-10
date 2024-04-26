@@ -33,9 +33,17 @@ async function run() {
     await client.connect();
 
     const touristCollection = client.db('toursite').collection('touristspot');
+    
 
     app.get('/touristspot', async(req, res) => {
       const cursor = touristCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+    const countryCollection = client.db('toursite').collection('country');
+    // Country 
+    app.get('/country', async(req, res) => {
+      const cursor = countryCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     })
@@ -46,6 +54,10 @@ async function run() {
       const result = await touristCollection.findOne(query);
       res.send(result);
     })
+
+
+   
+
 
     app.post('/touristspot', async(req, res) => {
       const newTourSpot = req.body;
