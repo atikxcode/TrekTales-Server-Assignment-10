@@ -67,6 +67,30 @@ async function run() {
     })
 
 
+    app.put('/touristspot/:id', async(req, res) => {
+      const id = req.params.id;
+      const filter = {_id: new ObjectId(id)};
+      const options = { upsert: true };
+      const updateTourCard = req.body;
+      const TourCard = {
+        $set: {
+          name: updateTourCard.name,
+          image: updateTourCard.image,
+          country: updateTourCard.country,
+          location: updateTourCard.location,
+          short_description: updateTourCard.short_description,
+          average_cost: updateTourCard.average_cost,
+          seasonality: updateTourCard.seasonality,
+          travel_time: updateTourCard.travel_time,
+          total_visitors_per_year: updateTourCard.total_visitors_per_year
+        }
+      }
+  
+      const result = await touristCollection.updateOne(filter, TourCard, options);
+      res.send(result);
+     })
+
+
 
 
 
