@@ -9,7 +9,10 @@ const port = process.env.PORT || 5000;
 
 // MiddleWare
 
-app.use(cors());
+app.use(cors({
+  origin: ['https://trektales0108.netlify.app', 'http://localhost:5180', 'https://assignment-10-server-7jxi4slfj-atiks-projects-ca41f1e3.vercel.app']
+
+}));
 app.use(express.json());
 
 
@@ -30,7 +33,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     const touristCollection = client.db('toursite').collection('touristspot');
     
@@ -38,6 +41,7 @@ async function run() {
     app.get('/touristspot', async(req, res) => {
       const cursor = touristCollection.find();
       const result = await cursor.toArray();
+      res.header("Access-Control-Allow-Origin", "*");
       res.send(result);
     })
     
@@ -46,6 +50,7 @@ async function run() {
       const id = req.params.id;
       const query = {_id: new ObjectId(id)}
       const result = await touristCollection.findOne(query);
+      res.header("Access-Control-Allow-Origin", "*");
       res.send(result);
     })
 
@@ -53,7 +58,7 @@ async function run() {
     app.post('/touristspot', async(req, res) => {
       const newTourSpot = req.body;
       console.log(newTourSpot);
-
+      res.header("Access-Control-Allow-Origin", "*");
       const result = await touristCollection.insertOne(newTourSpot);
       res.send(result);
     })
@@ -63,6 +68,7 @@ async function run() {
       const id = req.params.id;
       const query = {_id: new ObjectId(id)};
       const result = await touristCollection.deleteOne(query);
+      res.header("Access-Control-Allow-Origin", "*");
       res.send(result);
     })
 
@@ -87,6 +93,7 @@ async function run() {
       }
   
       const result = await touristCollection.updateOne(filter, TourCard, options);
+      res.header("Access-Control-Allow-Origin", "*");
       res.send(result);
      })
 
@@ -96,6 +103,7 @@ async function run() {
       const id = req.params.id;
       const query = {_id: new ObjectId(id)};
       const result = await touristCollection.deleteOne(query);
+      res.header("Access-Control-Allow-Origin", "*");
       res.send(result);
     })
 
@@ -109,6 +117,7 @@ async function run() {
     app.get('/country', async(req, res) => {
       const cursor = countryCollection.find();
       const result = await cursor.toArray();
+      res.header("Access-Control-Allow-Origin", "*");
       res.send(result);
     })
 
